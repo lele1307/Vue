@@ -18,9 +18,10 @@
 
   - MVVM
 
-    -View ViewModel Model
+    - View ViewModel Model
 
-    View的变动，自动反映在 ViewModel
+      View的变动，自动反映在 ViewModel
+      
     ![MVVM](https://www.ruanyifeng.com/blogimg/asset/2015/bg2015020110.png)
 
 - v-cloak
