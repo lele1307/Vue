@@ -9,8 +9,8 @@
     - View Controller Model
 
       View 传送指令到 Controller
-  Controller 完成业务逻辑后，要求 Model 改变状态
-  Model 将新的数据发送到 View，用户得到反馈
+      Controller 完成业务逻辑后，要求 Model 改变状态
+      Model 将新的数据发送到 View，用户得到反馈
 
     ![MVC](https://www.ruanyifeng.com/blogimg/asset/2015/bg2015020106.png)
 
