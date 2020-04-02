@@ -102,6 +102,8 @@
 
 - v-if / v-show
 
+  [If/Show](If_Show.html)
+
   - v-if重新创建和删除元素（切换性能消耗high）
 
   - v-show 改变style display的状态 （初始渲染消耗high）
