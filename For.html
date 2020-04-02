@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For/Key</title>
+    <script src="../lib/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- Normal Array -->
+        <p v-for="(item,i) in list">index: {{i}}----{{item}}</p>
+        <!-- Obj Array -->
+        <p v-for="(user,i) in listObj">index: {{i}}----{{user.id}}----{{user.name}}</p>
+        <!-- Obj  -->
+        <p v-for="(val,key,i) in user">index: {{i}}----{{key}}: {{val}}</p>
+        <!-- Iteration -->
+        <p v-for="count in 10">This is the {{count}} time print. </p>
+        <!-- Why Key is important！！！ -->
+        <div>
+            <label>
+                id
+                <input type="text" v-model="id">
+            </label>
+            <label>
+                name
+                <input type="text" v-model="name">
+            </label>
+            <input type="button" value="add" @click="add">
+        </div>
+        <p v-for="item in listObj2" :key="item.id">
+            <input type="checkbox" name="" id="">
+            {{item.id}}-----{{item.name}}
+        </p>
+
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                id:'',
+                name:'',
+                list:[1,2,3,4,5,6,7],
+                listObj:[
+                    {id:1,name:'Tom'},
+                    {id:2,name:'Amy'},
+                    {id:3,name:'John'},
+                    {id:4,name:'David'},
+                ],
+                user:{
+                    id:1,
+                    name:'leier',
+                    gender:'female'
+                },
+                listObj2:[
+                    {id:1,name:'Tom'},
+                    {id:2,name:'Amy'},
+                    {id:3,name:'John'},
+                    {id:4,name:'David'},
+                ],
+            },
+            methods: {
+                add(){
+                    this.listObj2.push({id:this.id,name:this.name})
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
