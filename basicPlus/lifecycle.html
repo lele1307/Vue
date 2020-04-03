@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lifecycle</title>
+    <script src="../lib/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <input type="button" value="change msg" @click="msg='No'">
+        <h3 id="h3">{{ msg }}</h3>
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg:'h3'
+            },
+            methods: {},
+            beforeUpdate(){
+                // console.log('The content of pages: '+ document.getElementById('h3').innerText)
+                // console.log('\'msg\' in data: ' + this.msg)
+            },
+            updated(){
+                console.log('The content of pages: '+ document.getElementById('h3').innerText)
+                console.log('\'msg\' in data: ' + this.msg)
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brand</title>
+    <script src="../lib/vue.js"></script>
+    <link rel="stylesheet" href="../lib/bootstrap.min.css">
+</head>
+
+<body>
+    <div id="app">
+        <div class="card">
+            <div class="card-header text-left text-white bg-primary">
+                <h5>ADD NAME</h5>
+            </div>
+            <div class="card-body form-inline">
+                <label>
+                    Id:
+                    <input type="text" class="form-control" v-model="id" v-focus v-color="'blue'">
+                </label>
+                <label>
+                    Name:
+                    <input type="text" class="form-control" v-model="name" @keyup.enter="add">
+                </label>
+                <input type="button" value="Add" class="btn btn-primary" @click="add">
+                <label>
+                    Search Keywords:
+                    <input type="text" class="form-control" v-model="keywords">
+                </label>
+                <!-- <input type="button" value="Search" class="btn btn-primary" @click="search"> -->
+            </div>
+        </div>
+        
+        <table class="table table-bordered table-hover table-striped">
+            <thead> 
+                <tr>
+                    <th>Id</th>
+                    <th>name</th>
+                    <th>Ctime</th>
+                    <th>Operation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in search(keywords)" :key = "item.id">
+                    <td>{{ item.id }}</td>
+                    <td v-text="item.name"></td>
+                    <td>{{ item.ctime | dataFilter }}</td>
+                    <td><a href="" @click.prevent="del(item.id)">delete</a></td>
+                </tr>
+            </tbody>
+        </table>
+        
+    </div>
+
+    <div v-color="'pink'" v-fontweight="'500'" v-fontstyle="'italic'" id="app2">
+        {{ dt | dataFilter }}
+    </div>
+
+    <script>
+        Vue.filter('dataFilter',function(dataStr){
+            var newDate = new Date(dataStr)
+            //yyyy-mm-dd
+            var y = newDate.getFullYear()
+            var m = newDate.getMonth()+1
+            var d = newDate.getDate()
+            var hh = newDate.getHours()
+            var mm = newDate.getMinutes()
+            var ss = newDate.getSeconds()
+            return `${y}-${m}-${d} ${hh}:${mm}:${ss}`;
+        });
+        
+        Vue.directive('focus', {
+            // 当被绑定的元素插入到 DOM 中时……
+            inserted: function (el) {
+            // 聚焦元素
+            el.focus()
+            }
+        });
+
+        Vue.directive('color', {
+            bind: function (el,binding) {
+                el.style.color = binding.value
+            }
+        });
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                id:'',
+                name:'',
+                keywords:'',
+                list:[
+                    {id:1,name:"Amy",ctime: new Date()},
+                    {id:2,name:"Bob",ctime: new Date()},
+                    {id:3,name:"Cathy",ctime: new Date()}
+                ]
+            },
+            methods: {
+                add(){
+                    var people = {id:this.id ,name:this.name ,ctime: new Date()}
+                    this.list.push(people)
+                    this.id = this.name = null
+                },
+                del(id){
+                    /* this.list.some((item,i)=>{
+                        this.list.splice(i,1)
+                        if(item.id = id){
+                            return true;
+                        }
+                    }) */
+                    var index = this.list.findIndex(item => {
+                        if(item.id = id){
+                            return true;
+                        }
+                    })
+                    this.list.splice(index,1)
+                },
+                search(keywords){
+                    /*var newList = []
+                        this.list.forEach(element => {
+                        if(element.name.indexOf(keywords)!=-1){
+                            newList.push(element)
+                        }
+                    })
+                    return newList; */
+                    return this.list.filter(element =>{
+                        if(element.name.includes(keywords)){
+                            return element
+                        }
+                    })
+                }
+            }
+        });
+        
+        var vm2 = new Vue({
+            el:'#app2',
+            data:{
+                dt: new Date()
+            },
+            methods:{
+                
+            },
+            filters:{
+                dataFilter: function(dataStr){
+                    var newDate = new Date(dataStr)
+                    //yyyy-mm-dd
+                    var y = newDate.getFullYear()
+                    var m = (newDate.getMonth()+1).toString().padStart(2,'0')
+                    var d = newDate.getDate().toString().padStart(2,'0')
+                    var hh = newDate.getHours().toString().padStart(2,'0')
+                    var mm = newDate.getMinutes().toString().padStart(2,'0')
+                    var ss = newDate.getSeconds().toString().padStart(2,'0')
+                    return `${y}-${m}-${d} ${hh}:${mm}:${ss}~~~~~~~~`;
+                }
+            },
+            directives:{
+                "fontweight":{
+                    bind: function(el,binding){
+                        el.style.fontWeight = binding.value
+                    }
+                },
+                "fontstyle": // set update/bind at the same time
+                    function(el,binding){ 
+                        el.style.fontStyle = binding.value
+                        console.log(binding.name)
+                        console.log(binding.value)
+                        console.log(binding.expression)
+                    }
+            }
+        });
+    
+    </script>
+</body>
+
+</html>
