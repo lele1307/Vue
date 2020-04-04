@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../lib/vue.js"></script>
+    <link rel="stylesheet" href="../lib/bootstrap.min.css">
+</head>
+
+<body>
+    <div id="app">
+        <ul class="list-group">
+            <li class="list-group-item active" v-for="item in list" :key="item.id">
+                <span class="badge">Name: {{ item.name }}</span>
+                {{ item.contents }}
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                list:[
+                    {id:1, name:'Leier' ,contents:'We are all stardust!'},
+                    {id:2, name:'Kehan' ,contents:'We are all stardust!!'},
+                    {id:3, name:'Amy' ,contents:'We are all stardust!!!'},
+                    {id:Date.now(), name:'Bob' ,contents:'We are all stardust!!!!!'}
+                ]
+            },
+            methods: {}
+        });
+    </script>
+</body>
+
+</html>

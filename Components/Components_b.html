@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../lib/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <log-in1></log-in1>
+        <register></register>
+        <account></account>
+        <account2></account2>
+    </div>
+
+    <div id="app2">
+        <login></login>
+    </div>
+
+    <template id="tmpl2">
+        <div>
+            <a href="#">登录2</a> | <a href="#">注册2</a>
+        </div>
+    </template>
+
+    <script id="tmpl" type="x-template">
+        <div><a href="#">登录</a> | <a href="#">注册</a></div>
+    </script>
+
+    <script>
+        /* Vue.extend()+Vue.component() */
+        var login = Vue.extend({
+            template: '<h1>登录</h1>'
+        });
+        Vue.component('logIn1', login);
+
+        /* Vue.component() */
+        Vue.component('register', {
+            template: '<h1>注册 {{msg}} </h1>',
+            data: function(){
+                return{
+                    msg:'this is data in comp'
+                }
+            }
+        });
+
+        /* template register in <script> */
+        Vue.component('account', {
+            template: '#tmpl'
+        });
+
+        Vue.component('account2', {
+            template: '#tmpl2'
+        });
+
+        var vm = new Vue({
+            el: '#app',
+            data: {},
+            methods: {}
+        });
+
+        var vm2 = new Vue({
+            el: '#app2',
+            data: {},
+            methods: {},
+            components:{
+                login:{
+                    template:"<h1>app2 personal component</h1>"
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
