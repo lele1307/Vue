@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../lib/vue.js"></script>
+    <script src="https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js"></script>
+    <link rel="stylesheet" href="../lib/bootstrap.min.css">
+</head>
+
+<body>
+    <div id="app">
+        <div class="card">
+            <div class="card-header text-left text-white bg-primary">
+                <h5>ADD NAME</h5>
+            </div>
+            <div class="card-body form-inline">
+                <label>
+                    Id:
+                    <input type="text" class="form-control" v-model="id">
+                </label>
+                <label>
+                    Name:
+                    <input type="text" class="form-control" v-model="name">
+                </label>
+                <input type="button" value="Add" class="btn btn-primary" @click="add">
+                <label>
+                    Search Keywords:
+                    <input type="text" class="form-control" v-model="keywords">
+                </label>
+                <!-- <input type="button" value="Search" class="btn btn-primary" @click="search"> -->
+            </div>
+        </div>
+        
+        <table class="table table-bordered table-hover table-striped">
+            <thead> 
+                <tr>
+                    <th>Id</th>
+                    <th>name</th>
+                    <th>Ctime</th>
+                    <th>Operation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in list" :key = "item.id">
+                    <td>{{ item.id }}</td>
+                    <td v-text="item.name"></td>
+                    <td>{{ item.ctime | dataFilter }}</td>
+                    <td><a href="" @click.prevent="del(item.id)">delete</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        // 如果我们通过全局配置了，请求的数据接口 根域名，则 ，在每次单独发起 http 请求的时候，请求的 url 路径，应该以相对路径开头，前面不能带 /  ，否则 不会启用根路径做拼接；
+        Vue.http.options.root = 'http://vue.studyit.io/';
+        // 全局启用 emulateJSON 选项
+        Vue.http.options.emulateJSON = true;
+        Vue.filter('dataFilter',function(dataStr){
+            var newDate = new Date(dataStr)
+            //yyyy-mm-dd
+            var y = newDate.getFullYear()
+            var m = newDate.getMonth()+1
+            var d = newDate.getDate()
+            var hh = newDate.getHours()
+            var mm = newDate.getMinutes()
+            var ss = newDate.getSeconds()
+            return `${y}-${m}-${d} ${hh}:${mm}:${ss}`;
+        });
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                id:'',
+                name:'',
+                keywords:'',
+                list:[
+                    {id:1,name:"Amy",ctime: new Date()},
+                    {id:2,name:"Bob",ctime: new Date()},
+                    {id:3,name:"Cathy",ctime: new Date()}
+                ]
+            },
+            created() { // 当 vm 实例 的 data 和 methods 初始化完毕后，vm实例会自动执行created 这个生命周期函数
+                this.getAllList()
+            },
+            methods: {
+                getAllList(){ //http://vue.studyit.io/api/getprodlist
+                    this.$http.get('api/getprodlist').then(result => {
+                        // 注意： 通过 $http 获取到的数据，都在 result.body 中放着
+                        var result = result.body
+                        if (result.status === 0) {
+                        // 成功了
+                        this.list = result.message
+                        } else {
+                        // 失败了
+                        alert('获取数据失败！')
+                        }
+                    })
+                },
+                add() { // 添加品牌列表到后台服务器
+                        // 分析：
+                        // 1. 听过查看 数据API接口，发现，要发送一个 Post 请求，  this.$http.post
+                        // 2. this.$http.post() 中接收三个参数：
+                        //   2.1 第一个参数： 要请求的URL地址
+                        //   2.2 第二个参数： 要提交给服务器的数据 ，要以对象形式提交给服务器 { name: this.name }
+                        //   3.3 第三个参数： 是一个配置对象，要以哪种表单数据类型提交过去， { emulateJSON: true }, 以普通表单格式，将数据提交给服务器 application/x-www-form-urlencoded
+                        // 3. 在 post 方法中，使用 .then 来设置成功的回调函数，如果想要拿到成功的结果，需要 result.body
+                        /* this.$http.post('api/addproduct', { name: this.name }, { emulateJSON: true }).then(result => {
+                            if (result.body.status === 0) {
+                            // 成功了！
+                            // 添加完成后，只需要手动，再调用一下 getAllList 就能刷新品牌列表了
+                            this.getAllList()
+                            // 清空 name 
+                            this.name = ''
+                            } else {
+                            // 失败了
+                            alert('添加失败！')
+                            }
+                        }) */
+
+                    this.$http.post('api/addproduct', { name: this.name }).then(result => {
+                        if (result.body.status === 0) {
+                        // 成功了！
+                        // 添加完成后，只需要手动，再调用一下 getAllList 就能刷新品牌列表了
+                        this.getAllList()
+                        // 清空 name 
+                        this.name = ''
+                        } else {
+                        // 失败了
+                        alert('添加失败！')
+                        }
+                    })
+                },
+                del(id) { // 删除品牌
+                    this.$http.get('api/delproduct/' + id).then(result => {
+                        if (result.body.status === 0) {
+                            // 删除成功
+                            this.getAllList()
+                        } else {
+                            alert('删除失败！')
+                        }
+                    })
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
