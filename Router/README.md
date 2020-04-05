@@ -27,3 +27,7 @@
 ### 路由的嵌套
 
   [Router_ nested.html](Router_nested.html)
+
+### 路由配合flex实现经典layout
+
+  [Router_layout.html](Router_layout.html)
