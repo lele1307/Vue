@@ -4,33 +4,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>PassVal Example</title>
     <script src="../lib/vue.js"></script>
-    <link rel="stylesheet" href="../lib/bootstrap.min.css">
 </head>
 
 <body>
     <div id="app">
-        <ul class="list-group">
-            <li class="list-group-item active" v-for="item in list" :key="item.id">
-                <span class="badge">Name: {{ item.name }}</span>
-                {{ item.contents }}
-            </li>
-        </ul>
+        <com1 :fmsg='msg'></com1>
+        <com2 @func="getSonMsg"></com2>
+        <h3>{{sonMsg}}</h3>
     </div>
+    <template id="tmp1">
+        <div>
+            <h2>This is son components!!</h2>
+            <h3>Get 'msg' from Father's component ----- {{fmsg}}</h3>
+        </div>
+    </template>
+    <template id="tmp2">
+        <input type="button" value="Get Son's msg" @click="sentMsg">
+    </template>
 
     <script>
+        var com1 = {
+            template:'#tmp1',
+            props:['fmsg']
+        }
+        var com2 = {
+            template:'#tmp2',
+            data:function(){
+                return{
+                    msg:'Son\'s msg'
+                }
+            },
+            methods:{
+                sentMsg(){
+                    this.$emit('func',this.msg)
+                }
+            }
+        }
         var vm = new Vue({
             el: '#app',
             data: {
-                list:[
-                    {id:1, name:'Leier' ,contents:'We are all stardust!'},
-                    {id:2, name:'Kehan' ,contents:'We are all stardust!!'},
-                    {id:3, name:'Amy' ,contents:'We are all stardust!!!'},
-                    {id:Date.now(), name:'Bob' ,contents:'We are all stardust!!!!!'}
-                ]
+                sonMsg:'Null',
+                msg:'This is father\'s msg.' 
             },
-            methods: {}
+            methods: {
+                getSonMsg(data){
+                    this.sonMsg = data
+                    console.log(data)
+                }
+            },
+            components:{
+                com1,com2
+            }
         });
     </script>
 </body>
