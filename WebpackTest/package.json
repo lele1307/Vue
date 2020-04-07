@@ -1,23 +1,26 @@
 {
-  "name": "WebpackTest",
+  "name": "web",
   "version": "1.0.0",
-  "description": "## 4.06",
-  "private": true,
+  "description": "Try to init projects",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack"
+    "build": "webpack",
+    "dev2": "webpack-dev-server --open --port 1307 --contentBase src --hot",
+    "dev": "webpack-dev-server"
   },
+  "private": true,
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "lodash": "^4.17.15"
-  },
   "devDependencies": {
-    "css-loader": "^3.4.2",
-    "file-loader": "^6.0.0",
+    "css-loader": "^3.5.1",
+    "html-webpack-plugin": "^4.0.4",
     "style-loader": "^1.1.3",
     "webpack": "^4.42.1",
-    "webpack-cli": "^3.3.11"
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
+  },
+  "dependencies": {
+    "jquery": "^3.4.1"
   }
 }

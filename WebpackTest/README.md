@@ -24,3 +24,41 @@
 
 ### 什么是webpack?
 webpack 是前端的一个项目构建工具，它是基于 Node.js 开发出来的一个前端工具；
+
+#### webpack环境用npm部署
+
+- npm init -y
+
+- 创建dist--输出 创建src--开发
+
+- npm install webpack webpack-cli --save-dev
+  >配置webpack运行环境依赖 
+
+#### webpack.config.js配置文件设置
+
+- [配置(configuration)](https://webpack.docschina.org/concepts/configuration)
+
+#### 开发中 webpack-dev-server设置
+
+- npm install webpack-dev-server --save-dev
+
+- [开发中 server(devServer)](https://webpack.docschina.org/configuration/dev-server/)
+
+#### 插件的使用
+
+- npm install 【一些插件】 --save-dev
+
+- [插件(plugins)的导入使用](https://webpack.docschina.org/configuration/plugins/)
+
+    ##### 模块热替换
+
+    - [模块热替换(hot module replacement)](https://webpack.docschina.org/concepts/hot-module-replacement/)
+
+#### loader
+
+loader 可以将文件从不同的语言（如 TypeScript）转换为 JavaScript 或将内联图像转换为 data URL。loader 甚至允许直接在 JavaScript 模块中 import CSS文件
+
+- npm install --save-dev 【css-loader.....】
+
+- [loader的使用配置](https://webpack.docschina.org/concepts/loaders/#%E4%BD%BF%E7%94%A8-loader)
+
