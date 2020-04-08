@@ -92,3 +92,25 @@ loader 可以将文件从不同的语言（如 TypeScript）转换为 JavaScript
 
 - 在页面中创建一个 id 为 app 的 div 元素，作为 vm 实例要控制的区域；
 
+### 关于ES6导入 导出模块
+
+- ES6中导入模块 
+  使用   import 模块名称 from '模块标识符'    import '表示路径'
+
+- export default 和 export 向外暴露成员
+  - export default 向外暴露的成员，可以使用任意的变量来接收
+  
+  - 在一个模块中，export default 只允许向外暴露1次
+  
+  - 在一个模块中，可以同时使用 export default 和 export 向外暴露成员
+
+    - export 可以向外暴露多个成员， 同时，如果某些成员，我们在 import 的时候，不需要，则可以 不在 {}  中定义
+
+  - 使用 export 向外暴露的成员，只能使用 { } 的形式来接收，这种形式，叫做 【按需导出】
+  
+  - 使用 export 导出的成员，必须严格按照 导出时候的名称，来使用  {}  按需接收
+  
+  - 使用 export 导出的成员，如果 就想 换个 名称来接收，可以使用 as 来起别名；
+
+
+
