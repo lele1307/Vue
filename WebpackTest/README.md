@@ -50,6 +50,8 @@ webpack 是前端的一个项目构建工具，它是基于 Node.js 开发出来
 
 - [插件(plugins)的导入使用](https://webpack.docschina.org/configuration/plugins/)
 
+当使用 html-webpack-plugin 之后，我们不再需要手动处理 bundle.js 的引用路径了，因为 这个插件，已经帮我们自动 创建了一个 合适的 script , 并且，引用了正确的路径
+
     ##### 模块热替换
 
     - [模块热替换(hot module replacement)](https://webpack.docschina.org/concepts/hot-module-replacement/)
@@ -61,4 +63,32 @@ loader 可以将文件从不同的语言（如 TypeScript）转换为 JavaScript
 - npm install --save-dev 【css-loader.....】
 
 - [loader的使用配置](https://webpack.docschina.org/concepts/loaders/#%E4%BD%BF%E7%94%A8-loader)
+
+### webpack 中如何使用 vue
+
+- 安装vue的包：  npm i vue -S
+
+-  由于 在 webpack 中，推荐使用 .vue 这个组件模板文件定义组件，所以，需要安装能解析这种文件的 loader    
+    cnpm i vue-loader vue-template-complier -D
+
+- 在 index.js 中，导入 vue 模块  import Vue from 'vue'
+
+- 定义一个 .vue 结尾的组件，其中，组件有三部分组成：
+  template script style
+
+- 导入组件
+  ```js
+  import 【login】 from './login.vue' 
+  ```
+  
+
+- 创建 vm 的实例 
+  ```js
+  var vm = new Vue({ 
+    el: '#app', 
+    render: c => c(【login】) 
+  })
+  ```
+
+- 在页面中创建一个 id 为 app 的 div 元素，作为 vm 实例要控制的区域；
 
